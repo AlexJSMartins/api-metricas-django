@@ -75,7 +75,7 @@ python manage.py runserver
 A API estará disponível em http://127.0.0.1:8000
 
 Para acessar a API siga os passos na documentação do frontend que foi desenvolvido em React.
-O Repositório do Frontend pode ser encontrado aqui: <URL_DO_REPOSITORIO_FRONTEND>
+O Repositório do Frontend pode ser encontrado aqui: https://github.com/AlexJSMartins/front-end-api-metricas.git
 
 📖 Endpoints da API
 
