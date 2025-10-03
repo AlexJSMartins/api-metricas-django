@@ -1,0 +1,130 @@
+                    API de Métricas de Marketing Digital
+
+Esta é uma API RESTful robusta, construída com Python e Django REST Framework, 
+desenhada para servir dados de performance de campanhas de marketing. 
+A API fornece endpoints seguros para autenticação, consulta e manipulação de métricas, 
+com um sistema de permissões baseado em papéis de utilizador.
+Este backend foi desenvolvido para suportar um frontend moderno (por exemplo, React, Vue, Angular),
+fornecendo dados em formato JSON de forma eficiente e paginada.
+
+- **Autenticação Segura por Token:** Utiliza JWT (JSON Web Tokens) para autenticação, garantindo que os endpoints de dados sejam seguros.
+- **Sistema de Permissões Baseado em Papéis:** Acesso a dados sensíveis (como custos) é restrito a utilizadores com o papel de "admin".
+- **Filtragem Dinâmica:** Permite filtrar as métricas por um intervalo de datas (maior ou igual a e menor ou igual a).
+- **Ordenação Flexível:** Os dados podem ser ordenados de forma ascendente ou descendente por qualquer uma das colunas disponíveis.
+- **Paginação Automática:** As respostas da API são paginadas para garantir um desempenho rápido e eficiente, mesmo com grandes volumes de dados.
+- **Script de Carga de Dados:** Inclui um comando de gestão customizado para popular a base de dados a partir de ficheiros .csv de forma simples.
+
+
+🛠️ Tecnologias Utilizadas
+Backend:
+Python 3.10+
+Django 4+
+Django REST Framework
+Simple JWT for DRF (para autenticação JWT)
+Pandas (para a importação de dados dos CSVs)
+django-filter (para a filtragem de dados)
+Base de Dados:
+SQLite (padrão do Django, ideal para desenvolvimento)
+
+
+🚀 Configuração e Instalação
+Siga estes passos para configurar e executar o ambiente de desenvolvimento localmente.
+Pré-requisitos
+Python 3.10 ou superior
+Git
+
+1. Clone o Repositório
+```bash
+git clone https://github.com/AlexJSMartins/api-metricas-django.git
+cd api-metricas-django/projetomonks
+
+2. Crie e ative um ambiente virtual:
+No Windows:
+python -m venv venv
+.\venv\Scripts\activate
+
+
+No macOS/Linux:
+python3 -m venv venv
+source venv/bin/activate
+
+
+3. Instale as dependências:
+pip install -r requirements.txt
+
+4. Coloque os arquivos de dados na raiz do projeto:
+Garanta que os arquivos users.csv e metrics.csv estão na diretoria principal, ao mesmo nível do manage.py.
+
+5. Aplique as migrações da base de dados:
+Este comando irá criar a sua base de dados SQLite e as tabelas necessárias.
+python manage.py migrate
+
+6. Carregue os dados iniciais:
+Este comando personalizado irá ler os ficheiros .csv e popular a sua base de dados com os utilizadores e as métricas.
+python manage.py load_initial_data
+
+
+7. (Opcional) Crie um superutilizador:
+Para aceder ao site de administração do Django (/admin/), crie um superutilizador.
+python manage.py createsuperuser
+
+▶️ Executar o Servidor
+Para iniciar a API, execute o seguinte comando:
+python manage.py runserver
+
+A API estará disponível em http://127.0.0.1:8000
+
+Para acessar a API siga os passos na documentação do frontend que foi desenvolvido em React.
+O Repositório do Frontend pode ser encontrado aqui: <URL_DO_REPOSITORIO_FRONTEND>
+
+📖 Endpoints da API
+
+Autenticação
+POST /api/token/
+Descrição: Obtém um par de tokens (acesso e refresh) ao enviar as credenciais do utilizador.
+Corpo do Pedido (Body):
+{
+    "username": "user@email.com",
+    "password": "sua_senha"
+}
+
+
+Resposta de Sucesso:
+{
+    "refresh": "eyJhbGciOi...",
+    "access": "eyJhbGciOi..."
+}
+
+
+Usuários
+GET /api/user/me/
+Descrição: Retorna os dados do usuário atualmente autenticado. Requer um token de acesso válido no cabeçalho Authorization.
+Cabeçalho (Header): Authorization: Bearer <seu_token_de_acesso>
+Resposta de Sucesso:
+{
+    "id": 1,
+    "email": "user@email.com",
+    "role": "admin"
+}
+
+
+Métricas de Performance
+GET /api/metrics-data/
+Descrição: Retorna a lista paginada de métricas de performance. Requer autenticação.
+Cabeçalho (Header): Authorization: Bearer <seu_token_de_acesso>
+Parâmetros de Consulta (Query Params):
+page (int): O número da página a ser exibida (ex: ?page=2).
+date__gte (string): Filtra por datas maiores ou iguais a (formato: YYYY-MM-DD).
+date__lte (string): Filtra por datas menores ou iguais a (formato: YYYY-MM-DD).
+ordering (string): Define o campo para ordenação. Use um - para ordem descendente (ex: ?ordering=clicks ou ?ordering=-clicks).
+
+🔑 Credenciais para Teste
+Utilize as seguintes credenciais (do ficheiro users.csv) para testar os diferentes níveis de permissão:
+
+Usuário Admin:
+Email: user1@monks.com (ou o que estiver no seu users.csv)
+Senha: oeiruhn56146
+
+Usuário Comum:
+Email: user2@monks.com (ou o que estiver no seu users.csv)
+Senha: 908ijofff
